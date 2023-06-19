@@ -6,7 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { getDataWithId } from "../../../util/movie-data";
 import { ContentDetailParam, Content } from "../../../../types";
 import styles from "./styles";
-import DetailSkeleton from "../../ui/DetailSkeleton";
+import DetailSkeleton from "../../ui/Skeleton/DetailSkeleton";
 import Overview from "./Overview";
 import IconTextButton from "../../ui/IconTextButton";
 

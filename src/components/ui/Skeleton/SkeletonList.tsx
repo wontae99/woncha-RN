@@ -1,22 +1,29 @@
-import { Skeleton } from "@rneui/base";
 import { ScrollView, StyleSheet } from "react-native";
+
+import DefaultSkeleton from "./DefaultSkeleton";
 
 export default function SkeletonList() {
   return (
-    <ScrollView horizontal>
-      <Skeleton
+    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <DefaultSkeleton
         width={140}
         height={200}
         animation="none"
         style={styles.skeleton}
       />
-      <Skeleton
+      <DefaultSkeleton
         width={140}
         height={200}
         animation="none"
         style={styles.skeleton}
       />
-      <Skeleton
+      <DefaultSkeleton
+        width={140}
+        height={200}
+        animation="none"
+        style={styles.skeleton}
+      />
+      <DefaultSkeleton
         width={140}
         height={200}
         animation="none"
@@ -30,6 +37,5 @@ const styles = StyleSheet.create({
   skeleton: {
     marginHorizontal: 5,
     borderRadius: 5,
-    backgroundColor: "#3b3b3b",
   },
 });

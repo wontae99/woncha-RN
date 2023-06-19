@@ -1,7 +1,7 @@
 import { Text, FlatList, StyleSheet, View } from "react-native";
 
 import ContentItem from "../ContentItem";
-import SkeletonList from "../ui/SkeletonList";
+import SkeletonList from "../ui/Skeleton/SkeletonList";
 
 interface CategoryProps {
   title: string;

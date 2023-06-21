@@ -1,10 +1,9 @@
-import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import {
   NavigationProp,
   RouteProp,
   useNavigation,
   useRoute,
-  NavigationRouteContext,
 } from "@react-navigation/native";
 
 import VideoPlayer from "../ui/VideoPlayer";

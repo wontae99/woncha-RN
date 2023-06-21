@@ -52,7 +52,7 @@ export default function BottomTabNav() {
           ),
         }}
       />
-      <BottomTab.Screen
+      {/* <BottomTab.Screen
         name="Search"
         component={SearchScreen}
         options={{
@@ -62,13 +62,13 @@ export default function BottomTabNav() {
             <Ionicons name="search" color={color} size={size} />
           ),
         }}
-      />
+      /> */}
       <BottomTab.Screen
         name="Profile"
         component={ProfileScreen}
         options={{
           tabBarLabel: ({ focused, color }) =>
-            tabBarLabel("Profile", focused, color),
+            tabBarLabel("My Woncha", focused, color),
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="person" size={size} color={color} />
           ),

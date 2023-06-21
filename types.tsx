@@ -12,6 +12,7 @@ export type BottomTabParamList = {
 export type HomeParamList = {
   HomeScreen: undefined;
   ContentDetailsScreen: { id: number; media_type: string }; // set ScreenProps {id, media_type}
+  SearchScreen: any;
   VideoScreen: { video: Video }; // VideoScreenProps {video}
 };
 

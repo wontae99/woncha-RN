@@ -4,6 +4,7 @@ import { View, Animated, FlatList, StyleProp, ViewStyle } from "react-native";
 import VideoItem from "../VideoItem";
 import { Video } from "../../../types";
 import GoTopFlatList from "./GoTopFlatLIst";
+import GoTopIcon from "./GoTopFlatLIst/GoTopIcon";
 
 const H_MAX_HEIGHT = 150;
 const H_MIN_HEIGHT = 5;
@@ -16,6 +17,7 @@ interface CollapsibleHeaderProps {
 }
 
 const CollapsibleHeader = ({ data, children }: CollapsibleHeaderProps) => {
+  const flatListRef = useRef<any>(null);
   const scrollOffsetY = useRef(new Animated.Value(0)).current;
   const headerScrollHeight = scrollOffsetY.interpolate({
     inputRange: [0, H_SCROLL_DISTANCE],
@@ -25,7 +27,8 @@ const CollapsibleHeader = ({ data, children }: CollapsibleHeaderProps) => {
 
   return (
     <View>
-      <GoTopFlatList
+      <FlatList
+        ref={flatListRef}
         initialNumToRender={5}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
@@ -39,6 +42,7 @@ const CollapsibleHeader = ({ data, children }: CollapsibleHeaderProps) => {
         ListHeaderComponent={<View style={{ paddingTop: 100 }}></View>}
         ListFooterComponent={<View style={{ paddingBottom: 200 }}></View>}
       />
+      {/* <GoTopIcon onPress={toTop} /> */}
 
       {/**
        * We put the header at the bottom of

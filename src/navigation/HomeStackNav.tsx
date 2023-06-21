@@ -1,21 +1,20 @@
 import React from "react";
-import {
-  createStackNavigator,
-  StackCardInterpolationProps,
-  StackCardInterpolatedStyle,
-} from "@react-navigation/stack";
-import { Animated } from "react-native";
-
+import { createStackNavigator } from "@react-navigation/stack";
+//screens
 import HomeScreen from "../components/screens/HomeScreen";
 import ContentDetailScreen from "../components/screens/ContentDetailScreen";
-import { HomeParamList } from "../../types";
 import VideoScreen from "../components/screens/VideoScreen";
+// param types
+import { HomeParamList } from "../../types";
+//nav animation
+import { forHorizontalModal } from "./navAnimation";
+import SearchScreen from "../components/screens/SearchScreen";
 
 const HomeStack = createStackNavigator<HomeParamList>();
 
 const HomeStackNav = () => {
   return (
-    <HomeStack.Navigator id="HomestackNav">
+    <HomeStack.Navigator id="HomeStackNav">
       <HomeStack.Screen
         name="HomeScreen"
         component={HomeScreen}
@@ -32,6 +31,15 @@ const HomeStackNav = () => {
         }}
       />
       <HomeStack.Screen
+        name="SearchScreen"
+        component={SearchScreen}
+        options={{
+          title: "",
+          presentation: "modal",
+          cardStyleInterpolator: forHorizontalModal,
+        }}
+      />
+      <HomeStack.Screen
         name="VideoScreen"
         component={VideoScreen}
         options={{
@@ -43,47 +51,5 @@ const HomeStackNav = () => {
     </HomeStack.Navigator>
   );
 };
-
-// modal horizontal animation function
-export function forHorizontalModal({
-  current,
-  next,
-  inverted,
-  layouts: { screen },
-}: StackCardInterpolationProps): StackCardInterpolatedStyle {
-  const translateFocused = Animated.multiply(
-    current.progress.interpolate({
-      inputRange: [0, 1],
-      outputRange: [screen.width, 0],
-      extrapolate: "clamp",
-    }),
-    inverted
-  );
-
-  const overlayOpacity = current.progress.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, 0.07],
-    extrapolate: "clamp",
-  });
-
-  const shadowOpacity = current.progress.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, 0.3],
-    extrapolate: "clamp",
-  });
-
-  return {
-    cardStyle: {
-      transform: [
-        // Translation for the animation of the current card
-        { translateX: translateFocused },
-        // Translation for the animation of the card in back
-        { translateX: 0 },
-      ],
-    },
-    overlayStyle: { opacity: overlayOpacity },
-    shadowStyle: { shadowOpacity },
-  };
-}
 
 export default HomeStackNav;

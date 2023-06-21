@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View, Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import {
   getTopRatedContents,
@@ -7,10 +8,16 @@ import {
 } from "../../util/movie-data";
 
 import Category from "../HomeCategory";
-import { SafeAreaView } from "react-native-safe-area-context";
+import IconButton from "../ui/IconButton";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { HomeParamList } from "../../../types";
 
 export default function HomeScreen() {
+  const navigation = useNavigation<StackNavigationProp<HomeParamList>>();
+
   const [loading, setLoading] = useState(false);
+
   const [trendingMovies, setTrendingMovies] = useState<[]>([]);
   const [trendingSeries, setTrendingSeries] = useState<[]>([]);
   const [topRatedMovies, setTopRatedMovies] = useState<[]>([]);
@@ -36,9 +43,26 @@ export default function HomeScreen() {
 
   return (
     <>
-      <SafeAreaView>
-        <View style={styles.brandContainer}>
-          <Text style={styles.title}>WONCHA</Text>
+      <SafeAreaView style={{ padding: 10 }}>
+        <View style={styles.headerContainer}>
+          <View>
+            <Text style={styles.title}>WONCHA</Text>
+          </View>
+          <IconButton
+            icon="search"
+            size={28}
+            color="#fff"
+            onPress={() =>
+              navigation.navigate("SearchScreen", {
+                data: [
+                  ...trendingMovies,
+                  ...trendingSeries,
+                  ...topRatedMovies,
+                  ...topRatedSeries,
+                ],
+              })
+            }
+          />
         </View>
       </SafeAreaView>
       <ScrollView>
@@ -70,12 +94,13 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  brandContainer: {
-    padding: 10,
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   title: {
     color: "#f54260",
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
   },
   container: {

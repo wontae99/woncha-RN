@@ -4,22 +4,31 @@ import {
   RouteProp,
   useNavigation,
   useRoute,
+  NavigationRouteContext,
 } from "@react-navigation/native";
 
 import VideoPlayer from "../ui/VideoPlayer";
-import { ContentDetailParam, VideoParams } from "../../../types";
+import {
+  ContentDetailParam,
+  HomeParamList,
+  Video,
+  VideoParams,
+} from "../../../types";
 import CollapsibleHeader from "../ui/CollapsibleHeader";
 
 const VideoScreen = () => {
   const route: RouteProp<{ params: VideoParams }> = useRoute();
-  const navigation: NavigationProp<{ params: ContentDetailParam }> =
-    useNavigation();
+  const navigation: NavigationProp<
+    any | { name: HomeParamList } | { params: ContentDetailParam }
+  > = useNavigation();
   const { video } = route.params;
-  const videoData = navigation.getState().routes[1].params.videoData;
+  const videoData = navigation
+    .getState()
+    .routes.filter((route) => route.name === "ContentDetailsScreen")[0].params!
+    .videoData;
 
   const date = video.published_at.slice(0, 10);
 
-  const { width } = useWindowDimensions();
   const Header = (
     <View>
       <VideoPlayer video={video} />
@@ -30,7 +39,7 @@ const VideoScreen = () => {
     <View style={styles.rootContainer}>
       {Header}
       <CollapsibleHeader
-        data={videoData?.filter((item) => item.id !== video.id)}
+        data={videoData?.filter((item: Video) => item.id !== video.id)}
       >
         <View style={styles.infoContainer}>
           {video.official && <Text style={styles.official}>[Official]</Text>}

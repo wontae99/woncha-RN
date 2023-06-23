@@ -1,8 +1,9 @@
 import { View, Text, Pressable } from "react-native";
-import styles from "./styles";
 import { useState, useEffect } from "react";
 
-export default function Overview({ overviewText }: { overviewText: string }) {
+import styles from "./styles";
+
+const Overview = ({ overviewText }: { overviewText: string }) => {
   const [overview, setOverview] = useState(overviewText);
   const [folded, setFolded] = useState(true);
 
@@ -33,4 +34,6 @@ export default function Overview({ overviewText }: { overviewText: string }) {
       )}
     </View>
   );
-}
+};
+
+export default Overview;

@@ -1,5 +1,5 @@
 import { Pressable, Image, View } from "react-native";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -10,12 +10,12 @@ import { Content, HomeParamList } from "../../../types";
 const ContentItem = ({ data }: { data: Content }) => {
   const navigation = useNavigation<StackNavigationProp<HomeParamList>>();
 
-  function onPressItem() {
+  const onPressItem = useCallback(() => {
     navigation.navigate("ContentDetailsScreen", {
       id: data.id,
       media_type: data.name ? "tv" : "movie",
     });
-  }
+  }, []);
   const imageUrl = `https://image.tmdb.org/t/p/w500/${data.poster_path}`;
 
   return (

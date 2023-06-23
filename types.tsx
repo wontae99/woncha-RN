@@ -26,20 +26,6 @@ export type VideoParams = {
   video: Video;
 };
 
-// export type Movie = {
-//   adult: boolean;
-//   media_type: "movie";
-//   backdrop_path: string;
-//   genre_ids: number[];
-//   id: number;
-//   original_title: string;
-//   overview: string;
-//   poster_path: string;
-//   release_date: string;
-//   title: string;
-//   video: boolean;
-// };
-
 export type Content = {
   adult: boolean;
   backdrop_path: string;
@@ -74,15 +60,16 @@ export type Video = {
   type: string;
 };
 
-// {
-//   "id":"648238dcd2b209014e07bac6",
-//   "iso_3166_1":"US",
-//   "iso_639_1":"en",
-//   "key":"Yxaw1otUuUI",
-//   "name":"Clip - Meet Jessica Drew",
-//   "official":true,
-//   "published_at":"2023-06-08T18:00:29.000Z",
-//   "site":"YouTube",
-//   "size":1080,
-//   "type":"Clip"
-// },
+/// redux state
+export type itemState = {
+  items: { id: number; media_type: "movie" | "tv" }[];
+  isAdded: boolean | undefined;
+};
+
+export type uiState = {
+  notification: null | {
+    status: "error" | "success";
+    message: string;
+  };
+  isShown: boolean;
+};

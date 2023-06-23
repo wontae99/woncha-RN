@@ -1,32 +1,36 @@
 import { View, Text, Image, ScrollView } from "react-native";
-import { useState, useEffect } from "react";
+import { useCallback, useEffect } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
+import { itemActions } from "../../../store/itemSlice";
+import { RootState } from "../../../store";
+
 import { useRoute, RouteProp } from "@react-navigation/native";
+
 import { Ionicons } from "@expo/vector-icons";
 
-import { getDataWithId } from "../../../util/movie-data";
-import { ContentDetailParam, Content } from "../../../../types";
-import styles from "./styles";
-import DetailSkeleton from "../../ui/Skeleton/DetailSkeleton";
+import { Content, ContentDetailParam } from "../../../../types";
+
 import Overview from "./Overview";
 import IconTextButton from "../../ui/IconTextButton";
+import styles from "./styles";
 
-export default function ContentDetail() {
+interface ContentProps {
+  content: Content;
+}
+
+const ContentDetail = (props: ContentProps) => {
+  const { content } = props;
   const route: RouteProp<{ params: ContentDetailParam }> = useRoute();
   const { id, media_type } = route.params;
 
-  const [loading, setLoading] = useState(false);
-  const [content, setContent] = useState<Content>();
+  const dispatch = useDispatch();
+  const { items, isAdded } = useSelector((state: RootState) => state.item);
 
+  console.log(items);
   useEffect(() => {
-    async function fetchData(type: "movie" | "tv", id: string) {
-      setLoading(true);
-      const contentData = await getDataWithId(type, id);
-      setContent(contentData);
-      setLoading(false);
-    }
-
-    fetchData(media_type, id.toString());
-  }, []);
+    dispatch(itemActions.checkIsAdded({ id, media_type }));
+  }, [dispatch]);
 
   const backDrop = `https://image.tmdb.org/t/p/w500/${content?.backdrop_path}`;
   const title = media_type === "movie" ? content?.title : content?.name;
@@ -39,9 +43,17 @@ export default function ContentDetail() {
     </View>
   ));
 
-  if (loading) {
-    return <DetailSkeleton />;
-  }
+  //button functions
+  const toggleItem = useCallback(() => {
+    dispatch(itemActions.toggleItem({ id, media_type }));
+  }, []);
+
+  const listButton = isAdded ? (
+    <IconTextButton name="checkmark" text="Added" onPress={toggleItem} />
+  ) : (
+    <IconTextButton name="add-sharp" text="Add" onPress={toggleItem} />
+  );
+
   return (
     <>
       <Image style={styles.image} source={{ uri: backDrop }} />
@@ -66,7 +78,7 @@ export default function ContentDetail() {
 
         {/* row with icon buttons */}
         <View style={styles.buttonsContainer}>
-          <IconTextButton name="add-sharp" text="My List" onPress={() => {}} />
+          {listButton}
           <IconTextButton
             name="chatbox-ellipses"
             text="Comment"
@@ -77,4 +89,6 @@ export default function ContentDetail() {
       </View>
     </>
   );
-}
+};
+
+export default ContentDetail;

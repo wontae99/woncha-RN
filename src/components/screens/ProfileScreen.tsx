@@ -2,7 +2,6 @@ import { View, Text, StyleSheet } from "react-native";
 import { useEffect } from "react";
 
 export default function ProfileScreen() {
-
   return (
     <View style={styles.container}>
       <Text>ProfileScreen</Text>

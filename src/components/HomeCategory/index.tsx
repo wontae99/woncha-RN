@@ -1,15 +1,16 @@
 import { Text, FlatList, StyleSheet, View } from "react-native";
+import { memo } from "react";
 
+import { Content } from "../../../types";
 import ContentItem from "../ContentItem";
 import SkeletonList from "../ui/Skeleton/SkeletonList";
 
 interface CategoryProps {
   title: string;
-  data: [];
-  loading: boolean;
+  data: Content[];
 }
 
-const Category: React.FC<CategoryProps> = ({ title, data, loading }) => {
+const Category: React.FC<CategoryProps> = ({ title, data }) => {
   return (
     <>
       <View style={styles.textContainer}>
@@ -17,21 +18,18 @@ const Category: React.FC<CategoryProps> = ({ title, data, loading }) => {
       </View>
 
       <View style={styles.listContainer}>
-        {loading && <SkeletonList />}
-        {!loading && (
-          <FlatList
-            data={data}
-            renderItem={({ item }) => <ContentItem data={item} />}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          />
-        )}
+        <FlatList
+          data={data}
+          renderItem={({ item }) => <ContentItem data={item} />}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        />
       </View>
     </>
   );
 };
 
-export default Category;
+export default memo(Category);
 
 const styles = StyleSheet.create({
   textContainer: {
